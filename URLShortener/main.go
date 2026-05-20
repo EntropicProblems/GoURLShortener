@@ -30,13 +30,14 @@ func handler(w http.ResponseWriter, r *http.Request) {
     //need to take a request for a specific path in our domain 
     //and check and see if it maps to any url's
     if r.Method == http.MethodGet {
-        if r.URL.Path == "/" {
+        if r.URL.Path == "/" || r.URL.Path == "/login" || r.URL.Path =="/register" {
             //do nothing
         } else {
             http.Redirect(w,r,"https://google.com",301) //half-built redirect function
         }
         //if the domain is root, direct them to a page to designate a new url to shorten
         fmt.Fprint(w, "Welcome to root")
+        //loadPage("index") //this will be the final idea
     }
     if r.Method == http.MethodPost {
         //this will handle our shortener submission, adding to our map
