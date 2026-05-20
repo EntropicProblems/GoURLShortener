@@ -58,7 +58,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
     if r.Method == http.MethodPost {
         //this will handle our shortener submission, adding to our map
         if r.FormValue("URLShortcut") == "/login" || r.FormValue("URLShortcut") == "/register" || r.FormValue("URLShortcut") == "/" {
-            //these are invalid inputs, so throw them back an error in the form
+            fmt.Fprint(w,"Whoops, you tried to set a redirect to an existing part of the page")
         } else {
             //add to the map
             if myshortcuts == nil {
