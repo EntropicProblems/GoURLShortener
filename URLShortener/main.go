@@ -18,7 +18,7 @@ func (p *Page) save() error {
 }
 
 func loadPage(title string) (*Page, error) {
-    filename := title + ".txt"
+    filename := title + ".html" //pages will be in html
     body, err := os.ReadFile(filename)
     if err != nil {
         return nil, err
