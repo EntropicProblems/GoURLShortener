@@ -41,6 +41,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
     }
     if r.Method == http.MethodPost {
         //this will handle our shortener submission, adding to our map
+        if r.FormValue("URLShortcut") == "/login" || r.FormValue("URLShortcut") == "/register" || r.FormValue("URLShortcut") == "/" {
+            //these are invalid inputs, so throw them back an error in the form
+        } else {
+            //add to the map
+        }
     }
 }
 
