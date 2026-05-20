@@ -45,12 +45,15 @@ func handler(w http.ResponseWriter, r *http.Request) {
                 if err != nil {
                     fmt.Fprint(w, "Something went wrong") //adjust this to a nice webpage eventually
                 }
+                if myshortcuts == nil {
+                    myshortcuts = make(map[string]string)
+                }
             }
             http.Redirect(w,r,myshortcuts[r.URL.Path],301) //half-built redirect function
         }
         //if the domain is root, direct them to a page to designate a new url to shorten
-        fmt.Fprint(w, "Welcome to root")
-        //loadPage("index") //this will be the final idea
+        myroot,_ := loadPage("index")
+        fmt.Fprint(w,string(myroot.Body))
     }
     if r.Method == http.MethodPost {
         //this will handle our shortener submission, adding to our map
@@ -66,6 +69,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
                 err = json.Unmarshal(body, &myshortcuts)
                 if err != nil {
                     fmt.Fprint(w, "Something went wrong") //adjust this to a nice webpage eventually
+                }
+                if myshortcuts == nil {
+                    myshortcuts = make(map[string]string)
                 }
             }
             _, exists := myshortcuts[r.FormValue("URLShortcut")]
