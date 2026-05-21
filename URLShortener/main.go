@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
     "encoding/json"
+    "strings"
 )
 
 type Page struct{
@@ -74,11 +75,15 @@ func handler(w http.ResponseWriter, r *http.Request) {
                     myshortcuts = make(map[string]string)
                 }
             }
-            _, exists := myshortcuts[r.FormValue("URLShortcut")]
+            shortcutformval := r.FormValue("URLShortcut")
+            if strings.Index(shortcutformval, "/") != 0 {
+                shortcutformval = strings.Join([]string{"/",r.FormValue("URLShortcut")}, "")
+            }
+            _, exists := myshortcuts[shortcutformval]
             if exists {
                 fmt.Fprint(w, "Whoops! Someone already is using this shortcut!")
             } else {
-                myshortcuts[r.FormValue("URLShortcut")] = r.FormValue("ShortcuttedURL")
+                myshortcuts[shortcutformval] = r.FormValue("ShortcuttedURL")
                 //update the json now
                 byties, err :=json.Marshal(myshortcuts)
                 if err != nil {
